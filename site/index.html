@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="GrainLayer — a subtle paper-grain overlay for Windows. Free and open source.">
+<title>GrainLayer — Paper grain for Windows</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+</head>
+<body>
+<header class="hero">
+<nav class="nav"><a class="wordmark" href="./">GrainLayer</a><div class="nav-links">
+<a href="#features">Features</a><a href="#how-it-works">How it works</a><a href="#download">Download</a>
+<a href="https://github.com/TagtTheSpellcaster/GrainLayer">GitHub</a>
+</div></nav>
+<div class="hero-copy">
+<p class="eyebrow">FREE · OPEN SOURCE · WINDOWS</p>
+<h1>Make your desktop<br><em>feel a little less like glass.</em></h1>
+<p class="lede">GrainLayer places a subtle paper-grain surface over your Windows desktop. It stays out of the way, lets your mouse and keyboard pass through, and lives quietly in the system tray.</p>
+<div class="actions"><a class="button primary" href="https://github.com/TagtTheSpellcaster/GrainLayer/releases/latest">Download GrainLayer</a><a class="button secondary" href="https://github.com/TagtTheSpellcaster/GrainLayer">View source</a></div>
+<div class="badges"><span>Windows 10+</span><span>x64</span><span>MIT License</span><span>Native C++ / Win32</span></div>
+</div>
+<div class="hero-shot">
+  <div class="before-after" data-before-after aria-label="Before and after comparison of the Windows desktop with GrainLayer">
+    <img src="images/grainlayer-without-overlay.png" alt="Windows desktop without GrainLayer">
+    <img class="after-image" src="images/grainlayer-with-overlay.png" alt="The same Windows desktop with GrainLayer">
+    <div class="comparison-handle" aria-hidden="true"></div>
+    <div class="comparison-knob" aria-hidden="true"></div>
+    <span class="comparison-label label-before">Without GrainLayer</span>
+    <span class="comparison-label label-after">With GrainLayer</span>
+    <input type="range" min="0" max="100" value="50" aria-label="Reveal more or less of the GrainLayer overlay">
+  </div>
+</div>
+</header>
+<main>
+<section class="intro section"><div class="section-label">01 — THE SURFACE</div><div><h2>A little texture goes a long way.</h2>
+<p>Modern displays are perfectly uniform, bright and glossy. GrainLayer adds a faint procedural grain over the desktop to give that surface a more tactile, paper-like character.</p>
+<p>The effect is deliberately subtle. Adjust the intensity until you find the amount of texture that feels right for your screen.</p></div></section>
+<section class="compare section"><div class="section-label">SEE THE DIFFERENCE</div><div class="compare-grid">
+<figure><img src="images/grainlayer-without-overlay.png" alt="Windows desktop without GrainLayer"><figcaption>Without GrainLayer</figcaption></figure>
+<figure><img src="images/grainlayer-with-overlay.png" alt="The same Windows desktop with GrainLayer"><figcaption>With GrainLayer</figcaption></figure>
+</div></section>
+<section class="contrast section"><div class="section-label">02 — NOT AN AMBER FILTER</div><div class="contrast-grid">
+<div><h2>Change the surface,<br><em>not the picture.</em></h2></div>
+<div><p>Night Light and blue-light filters change your display's color temperature. GrainLayer takes a different approach: it overlays a textured surface.</p>
+<div class="contrast-cards"><div><strong>COLOR</strong><span>No tint in the default mode.</span></div><div><strong>GRAIN</strong><span>Actual spatial texture, not a flat color wash.</span></div></div></div>
+</div></section>
+<section id="features" class="features section"><div class="section-label">03 — FEATURES</div><div class="feature-grid">
+<article><span>01</span><h3>Paper grain</h3><p>A subtle procedural surface applied across the desktop.</p></article>
+<article><span>02</span><h3>Click-through</h3><p>The overlay stays out of the way of your normal mouse interaction.</p></article>
+<article><span>03</span><h3>Live intensity</h3><p>Adjust the effect directly from the system-tray menu.</p></article>
+<article><span>04</span><h3>Presets</h3><p>Paper-style and warm/tinted presets for different moods.</p></article>
+<article><span>05</span><h3>Keyboard control</h3><p>F6 toggles the overlay; F7 and F8 adjust intensity.</p></article>
+<article><span>06</span><h3>Persistent settings</h3><p>Your overlay state, intensity and tint are remembered automatically.</p></article>
+</div></section>
+<section class="presets section"><div class="section-label">04 — PICK YOUR SURFACE</div>
+<div class="preset-heading"><h2>Paper, grain and a few colors.</h2><p>Choose a paper-style preset or add a little warmth and color from the tray menu.</p></div>
+<div class="swatches">
+<div class="swatch paper"><span>Soft Wave</span></div><div class="swatch paper"><span>Rice Paper</span></div><div class="swatch paper"><span>Laid Cotton</span></div><div class="swatch paper"><span>Newsprint</span></div>
+<div class="swatch paper"><span>Cold Press</span></div><div class="swatch paper"><span>Artist Canvas</span></div><div class="swatch paper"><span>Felt Side</span></div><div class="swatch paper"><span>Frost Glassine</span></div>
+</div>
+<div class="swatches tinted">
+<div class="swatch amber"><span>Foxed Amber</span></div><div class="swatch kraft"><span>Bookcloth</span></div><div class="swatch kraft"><span>Recycled Kraft</span></div><div class="swatch plum"><span>Plum Kozo</span></div>
+<div class="swatch rose"><span>Rose Quartz</span></div><div class="swatch sage"><span>Sage Press</span></div><div class="swatch sky"><span>Nordic Sky</span></div>
+</div></section>
+<section id="how-it-works" class="technical section"><div class="section-label">05 — UNDER THE HOOD</div><div class="technical-grid">
+<div><h2>Small program.<br><em>Proper Win32.</em></h2></div><div class="steps">
+<div><b>01</b><div><h3>Layered window</h3><p>A transparent click-through Win32 window sits above the desktop.</p></div></div>
+<div><b>02</b><div><h3>Per-pixel alpha</h3><p>The surface is rendered into a 32-bit DIB with alpha-aware compositing.</p></div></div>
+<div><b>03</b><div><h3>Procedural grain</h3><p>The paper effect is generated rather than relying on a photographic texture.</p></div></div>
+<div><b>04</b><div><h3>System tray</h3><p>Configuration stays in the tray, leaving the desktop itself unobstructed.</p></div></div>
+</div></div></section>
+<section class="tray section"><div class="section-label">06 — OUT OF THE WAY</div><div class="tray-grid">
+<div class="tray-shot"><img src="images/grainlayer-tray-menu.png" alt="GrainLayer system tray menu"></div>
+<div><h2>One tiny menu.<br><em>Everything you need.</em></h2><p>Toggle the overlay, change intensity, choose a preset, enable Windows startup or exit — all from the system tray.</p>
+<p class="shortcuts"><kbd>F6</kbd> toggle &nbsp; <kbd>F7</kbd> decrease &nbsp; <kbd>F8</kbd> increase</p></div>
+</div></section>
+<section id="download" class="download section"><div class="download-box">
+<p class="eyebrow">GRAINLAYER FOR WINDOWS</p><h2>A paper surface for your desktop.</h2><p>Free, open source, native x64 Windows software.</p>
+<div class="actions"><a class="button primary" href="https://github.com/TagtTheSpellcaster/GrainLayer/releases/latest">Download the latest release</a><a class="button secondary" href="https://github.com/TagtTheSpellcaster/GrainLayer">GitHub repository</a></div>
+<small>MIT licensed · Windows 10+ · x64</small>
+</div></section>
+</main>
+<footer><div>GrainLayer</div><div>Free &amp; open source · <a href="https://github.com/TagtTheSpellcaster/GrainLayer">GitHub</a></div></footer>
+</body></html>
