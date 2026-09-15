@@ -1,5 +1,11 @@
 # GrainLayer
 
+[![Release](https://img.shields.io/github/v/release/TagtTheSpellcaster/GrainLayer?label=release&color=B34A22)](https://github.com/TagtTheSpellcaster/GrainLayer/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/TagtTheSpellcaster/GrainLayer/total?color=191713)](https://github.com/TagtTheSpellcaster/GrainLayer/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Windows](https://img.shields.io/badge/Windows-10%2B-black)
+![x64](https://img.shields.io/badge/x64-native-555)
+
 GrainLayer is a small native Windows utility written in C++/Win32 that places a subtle paper-grain layer over the entire desktop.
 
 It is designed to stay out of the way: the overlay is click-through, while configuration is available from the system tray.
