@@ -102,7 +102,7 @@ The accompanying guide documents this process as a practical case study of **vib
 
 ## Project history and guide
 
-The `docs/` directory contains a companion guide following the project from its first working version to v1.4.1, with special attention to the bugs encountered during development and the reasoning behind their fixes.
+The `docs/` directory contains a companion guide following the project from its first working version to v1.4.2, with special attention to the bugs encountered during development and the reasoning behind their fixes.
 
 ## Version history
 
