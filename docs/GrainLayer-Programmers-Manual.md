@@ -40,6 +40,42 @@ are often the most useful part of a programming history.
 
 ------------------------------------------------------------------------
 
+## Current Build: Visual Reference
+
+The following screenshots document the finished v1.4.1 application as it
+looks on Windows.
+
+### The same desktop, without and with the overlay
+
+The first two images are deliberately the same desktop captured at the
+same resolution. The only meaningful difference is whether GrainLayer is
+enabled.
+
+![Windows desktop without GrainLayer](images/grainlayer-without-overlay.png)
+
+*Figure 1 — The desktop with GrainLayer disabled.*
+
+![Windows desktop with GrainLayer](images/grainlayer-with-overlay.png)
+
+*Figure 2 — The same desktop with GrainLayer enabled. The overlay is
+deliberately subtle; its purpose is to change the surface character of
+the display rather than to apply a conspicuous visual filter.*
+
+### The tray interface
+
+The third image shows the main user interface. GrainLayer has no ordinary
+application window: the system-tray menu is the control surface.
+
+![GrainLayer tray menu](images/grainlayer-tray-menu.png)
+
+*Figure 3 — The tray menu with the intensity control and Warm tinted
+presets visible. The screenshot shows an intensity of 26%.*
+
+These images are useful when reading the later chapters because they
+provide a visual reference for the controls described in the source:
+F6 toggles the overlay, F7 and F8 adjust intensity, and the owner-drawn
+slider provides direct mouse control.
+
 ## How to Read This Manual
 
 Each chapter has three layers:
@@ -91,7 +127,7 @@ loop and window procedure could still be understood as a single unit.
 
 **Programming lesson:** when learning Win32, it is useful to keep the
 event loop visible rather than immediately hiding it behind
-abstractions. \## Chapter 0.3 --- Deckle Windows v0.3
+abstractions. ## Chapter 0.3 --- Deckle Windows v0.3
 
 Version 0.3 was the first major technical turning point.
 
@@ -110,7 +146,7 @@ compatible bitmap format, alpha representation, and window-composition
 settings.
 
 **Programming lesson:** graphical bugs often come from mismatched
-representations rather than from a single wrong line. \## Chapter 0.4
+representations rather than from a single wrong line. ## Chapter 0.4
 --- Deckle Windows v0.4
 
 Version 0.4 preserved the new per-pixel renderer and added another small
@@ -119,7 +155,7 @@ hotkey.
 
 This is a good example of the project becoming an actual utility rather
 than a rendering experiment. The visual layer and the command layer were
-now distinct concerns. \## Chapter 0.5 --- Deckle Windows v0.5
+now distinct concerns. ## Chapter 0.5 --- Deckle Windows v0.5
 
 Version 0.5 introduced the system tray. `Shell_NotifyIconW` gave the
 otherwise invisible utility a persistent user interface, and the hotkeys
@@ -132,7 +168,7 @@ A dedicated emergency exit combination, `Ctrl+Alt+Shift+Q`, also
 appeared here.
 
 **Programming lesson:** once an application has no ordinary main window,
-the notification area becomes its natural control surface. \## Chapter
+the notification area becomes its natural control surface. ## Chapter
 0.6 --- Deckle Windows v0.6
 
 Version 0.6 was primarily a stabilization pass over the tray-enabled
@@ -141,7 +177,7 @@ shell integration and dependencies were made explicit.
 
 This stage is important because it demonstrates that "nothing visually
 new" can still be a meaningful release: keeping a working architecture
-intact while removing rough edges is part of development. \## Chapter
+intact while removing rough edges is part of development. ## Chapter
 0.8 --- GrainLayer v0.8
 
 The project was renamed GrainLayer and moved into a more
@@ -154,7 +190,7 @@ would remain part of the application's identity.
 
 **Programming lesson:** a stable rendering core should become a fixed
 point. Later features should call into it rather than repeatedly
-replacing it. \## Chapter 0.9 --- GrainLayer v0.9
+replacing it. ## Chapter 0.9 --- GrainLayer v0.9
 
 Version 0.9 concentrated on stabilization before the 1.x line. The
 architecture had converged: hidden owner window, tray icon, layered
@@ -163,7 +199,7 @@ desktop overlay, shared state, hotkeys and menu commands.
 The source is already considerably larger than the original experiment,
 which is a useful reminder that a small desktop utility can accumulate
 complexity quickly once it has to behave like a real Windows
-application. \## Chapter 1.0 --- GrainLayer v1.0
+application. ## Chapter 1.0 --- GrainLayer v1.0
 
 Version 1.0 marked the first stable project structure. The Visual Studio
 solution and project metadata were made conventional, with explicit x64
@@ -172,12 +208,12 @@ configurations and the v143 toolset.
 This is less glamorous than the overlay itself, but it is crucial for
 reproducibility: source code is only useful as a project if another
 developer can open the solution, select a known configuration and build
-it. \## Chapter 1.0.1 --- GrainLayer v1.0.1
+it. ## Chapter 1.0.1 --- GrainLayer v1.0.1
 
 Version 1.0.1 is retained as a source snapshot because it represents the
 bridge into the graphical-control work. The core renderer and tray
 architecture are still recognizable, while the code is prepared for the
-next user-interface milestone. \## Chapter 1.1 --- GrainLayer v1.1
+next user-interface milestone. ## Chapter 1.1 --- GrainLayer v1.1
 
 Version 1.1 introduced the first graphical intensity control. The
 application no longer relied only on discrete keyboard/menu commands:
@@ -186,7 +222,7 @@ value.
 
 This is where UI state and rendering state began to interact more
 closely. A control that displays intensity must always be derived from
-the same value that controls the overlay. \## Chapter 1.2 --- GrainLayer
+the same value that controls the overlay. ## Chapter 1.2 --- GrainLayer
 v1.2
 
 Version 1.2 moved the slider directly into the tray menu as an
@@ -199,12 +235,12 @@ and the current intensity value.
 
 The first implementation also exposed an easy-to-make Win32 mistake:
 `GetMenuItemRect` expects a menu position, not an arbitrary command
-identifier. \## Chapter 1.2.1 --- GrainLayer v1.2.1
+identifier. ## Chapter 1.2.1 --- GrainLayer v1.2.1
 
 Version 1.2.1 continued the owner-drawn slider implementation and
 addressed small type/interaction issues. The important design remained
 unchanged: the slider lived inside the popup menu and was painted from
-application state. \## Chapter 1.2.2 --- GrainLayer v1.2.2
+application state. ## Chapter 1.2.2 --- GrainLayer v1.2.2
 
 Version 1.2.2 added the machinery required for true click-and-drag
 interaction. The menu's modal tracking loop meant ordinary window mouse
@@ -216,14 +252,14 @@ menu window (`#32768`) and updated the intensity from `WM_MOUSEMOVE`.
 This version also contained an accidental duplicated `{` during editing,
 producing a cascade of compiler errors. That failure is worth preserving
 in a programming manual because C++ diagnostics often point downstream
-from the real syntax error. \## Chapter 1.2.3 --- GrainLayer v1.2.3
+from the real syntax error. ## Chapter 1.2.3 --- GrainLayer v1.2.3
 
 Version 1.2.3 was a repair of the previous source-level mistake. The
 drag architecture itself remained intact.
 
 The lesson is procedural: after a cascading C++ error, find the earliest
 structural error first. Later errors may simply be the compiler losing
-synchronization with the source. \## Chapter 1.2.4 --- GrainLayer v1.2.4
+synchronization with the source. ## Chapter 1.2.4 --- GrainLayer v1.2.4
 
 Version 1.2.4 fixed the slider hit-testing bug properly.
 
@@ -234,7 +270,7 @@ each item's `MIIM_ID`, finds `IDM_INTENSITY_SLIDER`, and only then asks
 Windows for its rectangle.
 
 This is a classic Win32 lesson: many APIs use either an identifier or a
-positional index, and the two are not interchangeable. \## Chapter 1.2.5
+positional index, and the two are not interchangeable. ## Chapter 1.2.5
 --- GrainLayer v1.2.5
 
 Version 1.2.5 made click-and-drag live. A left click establishes the
@@ -243,7 +279,7 @@ continuously; releasing the mouse ends the drag.
 
 The popup menu's special window class (`#32768`) is part of the solution
 because the menu itself owns the interaction while it is being tracked.
-\## Chapter 1.2.6 --- GrainLayer v1.2.6
+## Chapter 1.2.6 --- GrainLayer v1.2.6
 
 Version 1.2.6 refined the interaction model rather than adding another
 feature.
@@ -254,7 +290,7 @@ This matches familiar Windows control behaviour and avoids surprising
 state changes simply because the pointer passed over the control.
 
 **Programming lesson:** interaction semantics are part of correctness,
-not merely polish. \## Chapter 1.3 --- GrainLayer v1.3
+not merely polish. ## Chapter 1.3 --- GrainLayer v1.3
 
 Version 1.3 added the custom GrainLayer icon as a resource. This was a
 small change technically, but it completed the transition from prototype
@@ -276,7 +312,7 @@ Startup is implemented through the current user's
 rather than HKLM, administrator privileges are not required.
 
 The menu wording was also changed to `Toggle overlay (F6)`, which
-describes the actual action more accurately. \## Chapter 1.4.1 ---
+describes the actual action more accurately. ## Chapter 1.4.1 ---
 GrainLayer v1.4.1
 
 Version 1.4.1 is a small corrective release.
@@ -291,7 +327,7 @@ intensity while the menu is open. The displayed position therefore
 remains synchronized with the actual overlay state.
 
 No change was made to the stable layered-window renderer or to the
-click-and-drag interaction. \# Part II --- The Architecture
+click-and-drag interaction. # Part II --- The Architecture
 
 ## 1. The Invisible Owner Window
 

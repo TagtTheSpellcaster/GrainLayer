@@ -1,0 +1,22 @@
+GRAINLAYER DOCUMENTATION UPDATE
+================================
+
+Copy the contents of this package over your existing local GrainLayer repository.
+
+Added:
+- README screenshots section
+- docs/images/grainlayer-without-overlay.png
+- docs/images/grainlayer-with-overlay.png
+- docs/images/grainlayer-tray-menu.png
+- updated Programmer's Manual (Markdown + PDF)
+- updated inspiration/credits text
+
+No source-code changes are included.
+
+Then run:
+
+    git add .
+    git commit -m "Add screenshots and documentation"
+    git push
+
+Do not use --force.

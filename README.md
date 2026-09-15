@@ -18,6 +18,54 @@ It is designed to stay out of the way: the overlay is click-through, while confi
 - Optional Windows startup
 - Automatic persistence of overlay state, intensity, and tint
 - Exit: Ctrl+Alt+Shift+Q
+## Screenshots
+
+GrainLayer is easiest to understand by seeing the same desktop with and without the overlay.
+
+<table>
+<tr>
+<td><strong>Without GrainLayer</strong></td>
+<td><strong>With GrainLayer</strong></td>
+</tr>
+<tr>
+<td><img src="docs/images/grainlayer-without-overlay.png" alt="Windows desktop without GrainLayer" width="480"></td>
+<td><img src="docs/images/grainlayer-with-overlay.png" alt="Windows desktop with GrainLayer overlay enabled" width="480"></td>
+</tr>
+</table>
+
+The overlay in the second image is intentionally subtle. The third screenshot shows the tray menu, including the live intensity slider and the available paper and tinted presets.
+
+<img src="docs/images/grainlayer-tray-menu.png" alt="GrainLayer tray menu with intensity slider and Warm tinted presets" width="560">
+
+## Programmer's Manual
+
+A detailed, source-heavy history of the project is available in the **[GrainLayer Programmer's Manual](docs/GrainLayer-Programmers-Manual.md)**, including the evolution from v0.1 (then called Deckle Windows), Win32 architecture, debugging notes, ASCII diagrams, screenshots of the finished application, and complete historical source listings.
+
+A PDF edition is also included: **[GrainLayer Programmer's Manual (PDF)](docs/GrainLayer-Programmers-Manual.pdf)**.
+
+## Inspiration
+
+GrainLayer belongs to a small chain of inspiration:
+
+```text
+Paperman.cc
+    |
+    | explicitly cited as an inspiration by
+    v
+Deckle — Akshat Katiyar
+    |
+    | inspiration for the Windows implementation
+    v
+GrainLayer
+```
+
+**[Paperman.cc](https://paperman.cc/)** is a desktop paper-surface utility for Mac and Windows. **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)**, a macOS application by **Akshat Katiyar**, explicitly cites Paperman as an inspiration. GrainLayer was then developed as an independent Windows project inspired by Deckle.
+
+The relationship is therefore a chain of inspiration rather than a direct port:
+
+**Paperman → Deckle → GrainLayer**
+
+GrainLayer is not affiliated with, endorsed by, or an official Windows port of Deckle or Paperman.
 
 ## Building
 
@@ -94,29 +142,3 @@ The `docs/` directory contains a companion guide following the project from its 
 ## License
 
 MIT. See [LICENSE](LICENSE).
-
-## Programmer's Manual
-
-A detailed, source-heavy history of the project is available in the **[GrainLayer Programmer's Manual](docs/GrainLayer-Programmers-Manual.md)**, including the evolution from v0.1 (then called Deckle Windows), Win32 architecture, debugging notes, ASCII diagrams, and complete historical source listings.
-
-A PDF edition is also included: **[GrainLayer Programmer's Manual (PDF)](docs/GrainLayer-Programmers-Manual.pdf)**.
-
-## Inspiration
-
-GrainLayer belongs to a small chain of inspiration:
-
-```text
-Paperman.cc
-    |
-    | explicitly cited as an inspiration by
-    v
-Deckle — Akshat Katiyar
-    |
-    | inspiration for the Windows implementation
-    v
-GrainLayer
-```
-
-Deckle explicitly cites **[Paperman.cc](https://paperman.cc/)** as an inspiration. GrainLayer was directly inspired by **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)**.
-
-GrainLayer is an independent project and is not affiliated with, endorsed by, or an official Windows port of Deckle.
