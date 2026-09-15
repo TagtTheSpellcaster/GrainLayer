@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.3
+- Added a visual indicator for the currently selected tint.
+- Updated the "No tint" menu item to use the same selection indicator without a color swatch.
+
 ## v1.4.2
 - Capped maximum intensity at 75%.
 - F7/F8 intensity controls and the tray slider now use the same 0–75% range.

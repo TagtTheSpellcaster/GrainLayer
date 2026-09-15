@@ -1,4 +1,3 @@
-
 #include <windows.h>
 #include <shellapi.h>
 #include <commctrl.h>
@@ -26,6 +25,7 @@ constexpr UINT IDM_INTENSITY = 1005;
 constexpr UINT IDM_INTENSITY_SLIDER = 1006;
 constexpr UINT IDM_STARTUP = 1007;
 constexpr int MAX_INTENSITY_PERCENT = 75;
+
 static bool g_menuTracking = false;
 static void RefreshPopupMenu();
 
@@ -348,13 +348,18 @@ static void SaveSettings()
 
     wchar_t buffer[32] = {};
     swprintf_s(buffer, L"%d", AlphaToPercent());
-    WritePrivateProfileStringW(L"GrainLayer", L"Intensity", buffer, path.c_str());
+    WritePrivateProfileStringW(
+        L"GrainLayer", L"Intensity", buffer, path.c_str());
 
     WritePrivateProfileStringW(
-        L"GrainLayer", L"Enabled", g_enabled ? L"1" : L"0", path.c_str());
+        L"GrainLayer",
+        L"Enabled",
+        g_enabled ? L"1" : L"0",
+        path.c_str());
 
     swprintf_s(buffer, L"%u", GetSelectedTintId());
-    WritePrivateProfileStringW(L"GrainLayer", L"Tint", buffer, path.c_str());
+    WritePrivateProfileStringW(
+        L"GrainLayer", L"Tint", buffer, path.c_str());
 }
 
 static void LoadSettings()
@@ -366,15 +371,33 @@ static void LoadSettings()
     wchar_t buffer[32] = {};
 
     GetPrivateProfileStringW(
-        L"GrainLayer", L"Intensity", L"25", buffer, _countof(buffer), path.c_str());
+        L"GrainLayer",
+        L"Intensity",
+        L"25",
+        buffer,
+        _countof(buffer),
+        path.c_str());
+
     PercentToAlpha(_wtoi(buffer));
 
     GetPrivateProfileStringW(
-        L"GrainLayer", L"Enabled", L"1", buffer, _countof(buffer), path.c_str());
+        L"GrainLayer",
+        L"Enabled",
+        L"1",
+        buffer,
+        _countof(buffer),
+        path.c_str());
+
     g_enabled = (_wtoi(buffer) != 0);
 
     GetPrivateProfileStringW(
-        L"GrainLayer", L"Tint", L"1100", buffer, _countof(buffer), path.c_str());
+        L"GrainLayer",
+        L"Tint",
+        L"1100",
+        buffer,
+        _countof(buffer),
+        path.c_str());
+
     const UINT tintId = static_cast<UINT>(_wtoi(buffer));
 
     if (tintId == IDM_TINT_NONE) {
@@ -382,6 +405,7 @@ static void LoadSettings()
         g_hasTint = false;
     } else {
         const TintMenuItem* tint = nullptr;
+
         for (const auto& item : kTints) {
             if (item.id == tintId) {
                 tint = &item;
@@ -399,6 +423,7 @@ static void LoadSettings()
 static bool IsStartupEnabled()
 {
     HKEY key = nullptr;
+
     if (RegOpenKeyExW(
             HKEY_CURRENT_USER,
             L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",
@@ -410,9 +435,15 @@ static bool IsStartupEnabled()
     wchar_t value[1024] = {};
     DWORD type = 0;
     DWORD size = sizeof(value);
+
     const LONG result = RegQueryValueExW(
-        key, L"GrainLayer", nullptr, &type,
-        reinterpret_cast<LPBYTE>(value), &size);
+        key,
+        L"GrainLayer",
+        nullptr,
+        &type,
+        reinterpret_cast<LPBYTE>(value),
+        &size);
+
     RegCloseKey(key);
 
     return result == ERROR_SUCCESS &&
@@ -423,6 +454,7 @@ static bool IsStartupEnabled()
 static bool SetStartupEnabled(bool enabled)
 {
     HKEY key = nullptr;
+
     const LONG openResult = RegOpenKeyExW(
         HKEY_CURRENT_USER,
         L"Software\\Microsoft\\Windows\\CurrentVersion\\Run",
@@ -437,7 +469,12 @@ static bool SetStartupEnabled(bool enabled)
 
     if (enabled) {
         wchar_t exePath[MAX_PATH] = {};
-        if (GetModuleFileNameW(nullptr, exePath, _countof(exePath)) == 0) {
+
+        if (GetModuleFileNameW(
+                nullptr,
+                exePath,
+                _countof(exePath)) == 0) {
+
             result = GetLastError();
         } else {
             std::wstring command = L"\"";
@@ -450,10 +487,12 @@ static bool SetStartupEnabled(bool enabled)
                 0,
                 REG_SZ,
                 reinterpret_cast<const BYTE*>(command.c_str()),
-                static_cast<DWORD>((command.size() + 1) * sizeof(wchar_t)));
+                static_cast<DWORD>(
+                    (command.size() + 1) * sizeof(wchar_t)));
         }
     } else {
         result = RegDeleteValueW(key, L"GrainLayer");
+
         if (result == ERROR_FILE_NOT_FOUND)
             result = ERROR_SUCCESS;
     }
@@ -502,7 +541,9 @@ static void AddTrayIcon()
     g_nid.uID = 1;
     g_nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     g_nid.uCallbackMessage = WMAPP_TRAY;
-    g_nid.hIcon = LoadIconW(GetModuleHandleW(nullptr), MAKEINTRESOURCEW(IDI_APP_ICON));
+    g_nid.hIcon = LoadIconW(
+        GetModuleHandleW(nullptr),
+        MAKEINTRESOURCEW(IDI_APP_ICON));
 
     wcscpy_s(g_nid.szTip, L"GrainLayer");
 
@@ -520,10 +561,13 @@ static const TintMenuItem* FindTint(UINT id)
         if (tint.id == id)
             return &tint;
     }
+
     return nullptr;
 }
 
-static void AppendTintItem(HMENU menu, const TintMenuItem& tint)
+static void AppendTintItem(
+    HMENU menu,
+    const TintMenuItem& tint)
 {
     MENUITEMINFOW mii = {};
     mii.cbSize = sizeof(mii);
@@ -540,8 +584,6 @@ static void AppendTintItem(HMENU menu, const TintMenuItem& tint)
         &mii);
 }
 
-
-
 static int AlphaToPercent()
 {
     return (static_cast<int>(g_alpha) * 100 + 127) / 255;
@@ -549,8 +591,13 @@ static int AlphaToPercent()
 
 static void PercentToAlpha(int percent)
 {
-    percent = std::clamp(percent, 0, MAX_INTENSITY_PERCENT);
-    g_alpha = static_cast<BYTE>((percent * 255 + 50) / 100);
+    percent = std::clamp(
+        percent,
+        0,
+        MAX_INTENSITY_PERCENT);
+
+    g_alpha = static_cast<BYTE>(
+        (percent * 255 + 50) / 100);
 }
 
 static void SetIntensityFromCursor(HMENU menu)
@@ -559,7 +606,12 @@ static void SetIntensityFromCursor(HMENU menu)
         return;
 
     RECT itemRect = {};
-    if (!GetMenuItemRect(g_hwnd, menu, IDM_INTENSITY_SLIDER, &itemRect))
+
+    if (!GetMenuItemRect(
+            g_hwnd,
+            menu,
+            IDM_INTENSITY_SLIDER,
+            &itemRect))
         return;
 
     POINT pt = {};
@@ -572,15 +624,18 @@ static void SetIntensityFromCursor(HMENU menu)
         return;
 
     const int mouseX = static_cast<int>(pt.x);
+
     const int clampedX =
         mouseX < left ? left :
         (mouseX > right ? right : mouseX);
 
     const int percent =
-        ((clampedX - left) * MAX_INTENSITY_PERCENT + (right - left) / 2) /
+        ((clampedX - left) * MAX_INTENSITY_PERCENT +
+         (right - left) / 2) /
         (right - left);
 
     const BYTE oldAlpha = g_alpha;
+
     PercentToAlpha(percent);
 
     if (oldAlpha != g_alpha)
@@ -595,6 +650,7 @@ static void AppendIntensitySlider(HMENU menu)
     mii.wID = IDM_INTENSITY_SLIDER;
     mii.fType = MFT_OWNERDRAW;
     mii.dwItemData = 0;
+
     InsertMenuItemW(
         menu,
         GetMenuItemCount(menu),
@@ -602,7 +658,8 @@ static void AppendIntensitySlider(HMENU menu)
         &mii);
 }
 
-static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
+static void DrawIntensitySlider(
+    const DRAWITEMSTRUCT* dis)
 {
     HDC dc = dis->hDC;
     RECT rc = dis->rcItem;
@@ -626,6 +683,7 @@ static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
     label.bottom = label.top + 18;
 
     wchar_t textBuffer[64] = {};
+
     swprintf_s(
         textBuffer,
         L"Intensity                         %d%%",
@@ -636,7 +694,10 @@ static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
         textBuffer,
         -1,
         &label,
-        DT_SINGLELINE | DT_LEFT | DT_VCENTER | DT_NOPREFIX);
+        DT_SINGLELINE |
+        DT_LEFT |
+        DT_VCENTER |
+        DT_NOPREFIX);
 
     const int trackLeft = rc.left + 12;
     const int trackRight = rc.right - 12;
@@ -655,19 +716,23 @@ static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
     DeleteObject(trackBrush);
 
     const int percent = AlphaToPercent();
+
     const int knobX =
         trackLeft +
-        ((trackRight - trackLeft) * percent) / MAX_INTENSITY_PERCENT;
+        ((trackRight - trackLeft) * percent) /
+        MAX_INTENSITY_PERCENT;
 
     RECT filled = track;
     filled.right = knobX;
 
     HBRUSH fillBrush = CreateSolidBrush(
         GetSysColor(COLOR_HIGHLIGHT));
+
     FillRect(dc, &filled, fillBrush);
     DeleteObject(fillBrush);
 
     const int radius = 7;
+
     RECT knob = {
         knobX - radius,
         trackY - radius,
@@ -682,10 +747,12 @@ static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
     FrameRect(
         dc,
         &knob,
-        static_cast<HBRUSH>(GetStockObject(GRAY_BRUSH)));
+        static_cast<HBRUSH>(
+            GetStockObject(GRAY_BRUSH)));
 }
 
-static void MeasureIntensitySlider(MEASUREITEMSTRUCT* mis)
+static void MeasureIntensitySlider(
+    MEASUREITEMSTRUCT* mis)
 {
     mis->itemHeight = 48;
     mis->itemWidth = 250;
@@ -695,7 +762,9 @@ static HMENU g_activeMenu = nullptr;
 static HHOOK g_menuHook = nullptr;
 static bool g_sliderDragging = false;
 
-static bool GetIntensityItemRect(HMENU menu, RECT* itemRect)
+static bool GetIntensityItemRect(
+    HMENU menu,
+    RECT* itemRect)
 {
     if (!menu || !itemRect)
         return false;
@@ -740,18 +809,22 @@ static HWND FindPopupMenuWindow()
 static void RefreshPopupMenu()
 {
     HWND menuWindow = FindPopupMenuWindow();
+
     if (menuWindow) {
         InvalidateRect(menuWindow, nullptr, FALSE);
         UpdateWindow(menuWindow);
     }
 }
 
-static void SetIntensityFromPoint(HMENU menu, POINT pt)
+static void SetIntensityFromPoint(
+    HMENU menu,
+    POINT pt)
 {
     if (!menu)
         return;
 
     RECT itemRect = {};
+
     if (!GetIntensityItemRect(menu, &itemRect))
         return;
 
@@ -768,10 +841,12 @@ static void SetIntensityFromPoint(HMENU menu, POINT pt)
         (mouseX > right ? right : mouseX);
 
     const int percent =
-        ((clampedX - left) * MAX_INTENSITY_PERCENT + (right - left) / 2) /
+        ((clampedX - left) * MAX_INTENSITY_PERCENT +
+         (right - left) / 2) /
         (right - left);
 
     const BYTE oldAlpha = g_alpha;
+
     PercentToAlpha(percent);
 
     if (oldAlpha != g_alpha) {
@@ -781,12 +856,15 @@ static void SetIntensityFromPoint(HMENU menu, POINT pt)
     }
 }
 
-static bool IsPointOverSlider(HMENU menu, POINT pt)
+static bool IsPointOverSlider(
+    HMENU menu,
+    POINT pt)
 {
     if (!menu)
         return false;
 
     RECT itemRect = {};
+
     if (!GetIntensityItemRect(menu, &itemRect))
         return false;
 
@@ -805,16 +883,22 @@ static LRESULT CALLBACK MenuMessageFilter(
         if (msg) {
             switch (msg->message) {
             case WM_LBUTTONDOWN:
-                if (IsPointOverSlider(g_activeMenu, msg->pt)) {
+                if (IsPointOverSlider(
+                        g_activeMenu,
+                        msg->pt)) {
+
                     g_sliderDragging = true;
 
                     // Keep receiving mouse movement even when the pointer
                     // leaves the slider while the button is held.
                     HWND menuWindow = FindPopupMenuWindow();
+
                     if (menuWindow)
                         SetCapture(menuWindow);
 
-                    SetIntensityFromPoint(g_activeMenu, msg->pt);
+                    SetIntensityFromPoint(
+                        g_activeMenu,
+                        msg->pt);
 
                     // Consume the click so the menu stays open.
                     return 1;
@@ -825,18 +909,27 @@ static LRESULT CALLBACK MenuMessageFilter(
                 // A plain mouseover must not change the intensity.
                 // Only a left-button drag updates the slider.
                 if (g_sliderDragging) {
-                    SetIntensityFromPoint(g_activeMenu, msg->pt);
+                    SetIntensityFromPoint(
+                        g_activeMenu,
+                        msg->pt);
+
                     return 1;
                 }
                 break;
 
             case WM_LBUTTONUP:
                 if (g_sliderDragging) {
-                    SetIntensityFromPoint(g_activeMenu, msg->pt);
+                    SetIntensityFromPoint(
+                        g_activeMenu,
+                        msg->pt);
+
                     g_sliderDragging = false;
 
-                    if (GetCapture() == FindPopupMenuWindow())
+                    if (GetCapture() ==
+                        FindPopupMenuWindow()) {
+
                         ReleaseCapture();
+                    }
 
                     // Consume the release so the menu stays open.
                     return 1;
@@ -846,12 +939,17 @@ static LRESULT CALLBACK MenuMessageFilter(
         }
     }
 
-    return CallNextHookEx(g_menuHook, code, wParam, lParam);
+    return CallNextHookEx(
+        g_menuHook,
+        code,
+        wParam,
+        lParam);
 }
 
 static void ShowTrayMenu()
 {
     HMENU menu = CreatePopupMenu();
+
     if (!menu)
         return;
 
@@ -859,7 +957,7 @@ static void ShowTrayMenu()
         menu,
         MF_STRING,
         IDM_TOGGLE,
-        g_enabled ? L"Toggle overlay (F6)" : L"Toggle overlay (F6)");
+        L"Toggle overlay (F6)");
 
     AppendMenuW(
         menu,
@@ -875,11 +973,18 @@ static void ShowTrayMenu()
 
     AppendIntensitySlider(menu);
 
-    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+    AppendMenuW(
+        menu,
+        MF_SEPARATOR,
+        0,
+        nullptr);
 
-    AppendMenuW(menu, MF_STRING, IDM_TINT_NONE, L"No tint");
+    // "No tint" is owner-drawn like the other tint entries so that
+    // it can display the same swatch and active-selection indicator.
+    AppendTintItem(menu, kTints[0]);
 
     HMENU warmMenu = CreatePopupMenu();
+
     if (warmMenu) {
         AppendTintItem(warmMenu, kTints[1]);
         AppendTintItem(warmMenu, kTints[2]);
@@ -897,6 +1002,7 @@ static void ShowTrayMenu()
     }
 
     HMENU paperMenu = CreatePopupMenu();
+
     if (paperMenu) {
         AppendTintItem(paperMenu, kTints[8]);
         AppendTintItem(paperMenu, kTints[9]);
@@ -914,15 +1020,24 @@ static void ShowTrayMenu()
             L"Paper");
     }
 
-    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+    AppendMenuW(
+        menu,
+        MF_SEPARATOR,
+        0,
+        nullptr);
 
     AppendMenuW(
         menu,
-        MF_STRING | (IsStartupEnabled() ? MF_CHECKED : 0),
+        MF_STRING |
+            (IsStartupEnabled() ? MF_CHECKED : 0),
         IDM_STARTUP,
         L"Open at startup");
 
-    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+    AppendMenuW(
+        menu,
+        MF_SEPARATOR,
+        0,
+        nullptr);
 
     AppendMenuW(
         menu,
@@ -948,8 +1063,8 @@ static void ShowTrayMenu()
     TrackPopupMenu(
         menu,
         TPM_RIGHTBUTTON |
-        TPM_BOTTOMALIGN |
-        TPM_LEFTALIGN,
+            TPM_BOTTOMALIGN |
+            TPM_LEFTALIGN,
         pt.x,
         pt.y,
         0,
@@ -991,7 +1106,8 @@ static void DrawTintSwatch(
             GetStockObject(GRAY_BRUSH)));
 }
 
-static void DrawTintMenuItem(const DRAWITEMSTRUCT* dis)
+static void DrawTintMenuItem(
+    const DRAWITEMSTRUCT* dis)
 {
     const auto* tint =
         reinterpret_cast<const TintMenuItem*>(
@@ -1005,6 +1121,9 @@ static void DrawTintMenuItem(const DRAWITEMSTRUCT* dis)
 
     const bool selected =
         (dis->itemState & ODS_SELECTED) != 0;
+
+    const bool active =
+        (GetSelectedTintId() == tint->id);
 
     const COLORREF background =
         selected
@@ -1020,13 +1139,51 @@ static void DrawTintMenuItem(const DRAWITEMSTRUCT* dis)
     FillRect(dc, &rc, bg);
     DeleteObject(bg);
 
-    DrawTintSwatch(dc, rc, tint->color);
+    // Draw the color swatch only for actual tint presets.
+    if (tint->id != IDM_TINT_NONE) {
+        DrawTintSwatch(dc, rc, tint->color);
+    }
+
+    // Small black dot indicating the currently active tint.
+    if (active) {
+        const int centerX =
+            (tint->id == IDM_TINT_NONE)
+                ? rc.left + 12
+                : rc.left + 30;
+
+        const int centerY =
+            (rc.top + rc.bottom) / 2;
+
+        const int radius = 3;
+
+        HBRUSH dotBrush =
+            CreateSolidBrush(RGB(0, 0, 0));
+
+        HGDIOBJ oldBrush =
+            SelectObject(dc, dotBrush);
+
+        Ellipse(
+            dc,
+            centerX - radius,
+            centerY - radius,
+            centerX + radius + 1,
+            centerY + radius + 1);
+
+        SelectObject(dc, oldBrush);
+        DeleteObject(dotBrush);
+    }
 
     SetBkMode(dc, TRANSPARENT);
     SetTextColor(dc, text);
 
     RECT textRc = rc;
-    textRc.left += 34;
+
+    if (tint->id == IDM_TINT_NONE) {
+        textRc.left += 20;
+    } else {
+        textRc.left += 46;
+    }
+
     textRc.right -= 8;
 
     DrawTextW(
@@ -1040,7 +1197,8 @@ static void DrawTintMenuItem(const DRAWITEMSTRUCT* dis)
         DT_NOPREFIX);
 }
 
-static void MeasureTintMenuItem(MEASUREITEMSTRUCT* mis)
+static void MeasureTintMenuItem(
+    MEASUREITEMSTRUCT* mis)
 {
     const auto* tint =
         reinterpret_cast<const TintMenuItem*>(
@@ -1052,6 +1210,7 @@ static void MeasureTintMenuItem(MEASUREITEMSTRUCT* mis)
     mis->itemHeight = 24;
 
     HDC dc = GetDC(g_hwnd);
+
     HFONT font = static_cast<HFONT>(
         GetStockObject(DEFAULT_GUI_FONT));
 
@@ -1059,6 +1218,7 @@ static void MeasureTintMenuItem(MEASUREITEMSTRUCT* mis)
         SelectObject(dc, font));
 
     SIZE size = {};
+
     GetTextExtentPoint32W(
         dc,
         tint->name,
@@ -1069,7 +1229,7 @@ static void MeasureTintMenuItem(MEASUREITEMSTRUCT* mis)
     ReleaseDC(g_hwnd, dc);
 
     mis->itemWidth =
-        static_cast<UINT>(size.cx + 50);
+        static_cast<UINT>(size.cx + 62);
 }
 
 static LRESULT CALLBACK WndProc(
@@ -1084,24 +1244,34 @@ static LRESULT CALLBACK WndProc(
             ShowTrayMenu();
         else if (lParam == WM_LBUTTONDBLCLK)
             ToggleOverlay();
+
         return 0;
 
     case WM_MEASUREITEM:
         if (wParam == 0) {
             const auto* mis =
-                reinterpret_cast<const MEASUREITEMSTRUCT*>(lParam);
+                reinterpret_cast<const MEASUREITEMSTRUCT*>(
+                    lParam);
 
-            if (mis && mis->CtlType == ODT_MENU) {
+            if (mis &&
+                mis->CtlType == ODT_MENU) {
+
                 auto* mutableMis =
                     const_cast<MEASUREITEMSTRUCT*>(mis);
 
-                if (mis->itemID == IDM_INTENSITY_SLIDER) {
-                    MeasureIntensitySlider(mutableMis);
+                if (mis->itemID ==
+                    IDM_INTENSITY_SLIDER) {
+
+                    MeasureIntensitySlider(
+                        mutableMis);
+
                     return TRUE;
                 }
 
                 if (FindTint(mis->itemID)) {
-                    MeasureTintMenuItem(mutableMis);
+                    MeasureTintMenuItem(
+                        mutableMis);
+
                     return TRUE;
                 }
             }
@@ -1111,10 +1281,15 @@ static LRESULT CALLBACK WndProc(
     case WM_DRAWITEM:
         if (wParam == 0) {
             const auto* dis =
-                reinterpret_cast<const DRAWITEMSTRUCT*>(lParam);
+                reinterpret_cast<const DRAWITEMSTRUCT*>(
+                    lParam);
 
-            if (dis && dis->CtlType == ODT_MENU) {
-                if (dis->itemID == IDM_INTENSITY_SLIDER) {
+            if (dis &&
+                dis->CtlType == ODT_MENU) {
+
+                if (dis->itemID ==
+                    IDM_INTENSITY_SLIDER) {
+
                     DrawIntensitySlider(dis);
                     return TRUE;
                 }
@@ -1150,7 +1325,9 @@ static LRESULT CALLBACK WndProc(
             return 0;
 
         case IDM_TINT_NONE:
-            SetTint(RGB(255, 255, 255), false);
+            SetTint(
+                RGB(255, 255, 255),
+                false);
             return 0;
 
         default:
@@ -1159,7 +1336,10 @@ static LRESULT CALLBACK WndProc(
                 FindTint(LOWORD(wParam));
 
             if (tint) {
-                SetTint(tint->color, true);
+                SetTint(
+                    tint->color,
+                    true);
+
                 return 0;
             }
         }
@@ -1195,6 +1375,7 @@ static LRESULT CALLBACK WndProc(
             DestroyWindow(h);
             break;
         }
+
         return 0;
 
     case WM_DESTROY:
@@ -1203,7 +1384,11 @@ static LRESULT CALLBACK WndProc(
         return 0;
     }
 
-    return DefWindowProc(h, msg, wParam, lParam);
+    return DefWindowProc(
+        h,
+        msg,
+        wParam,
+        lParam);
 }
 
 int WINAPI wWinMain(
@@ -1215,6 +1400,7 @@ int WINAPI wWinMain(
     INITCOMMONCONTROLSEX icc = {};
     icc.dwSize = sizeof(icc);
     icc.dwICC = ICC_BAR_CLASSES;
+
     InitCommonControlsEx(&icc);
 
     WNDCLASSEXW wc = {};
@@ -1222,9 +1408,17 @@ int WINAPI wWinMain(
     wc.hInstance = instance;
     wc.lpfnWndProc = WndProc;
     wc.lpszClassName = L"GrainLayerOverlay";
-    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wc.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_APP_ICON));
-    wc.hIconSm = LoadIconW(instance, MAKEINTRESOURCEW(IDI_APP_ICON));
+    wc.hCursor = LoadCursor(
+        nullptr,
+        IDC_ARROW);
+
+    wc.hIcon = LoadIconW(
+        instance,
+        MAKEINTRESOURCEW(IDI_APP_ICON));
+
+    wc.hIconSm = LoadIconW(
+        instance,
+        MAKEINTRESOURCEW(IDI_APP_ICON));
 
     if (!RegisterClassExW(&wc))
         return 1;
@@ -1266,29 +1460,47 @@ int WINAPI wWinMain(
     AddTrayIcon();
 
     RegisterHotKey(
-        g_hwnd, 1, MOD_NOREPEAT, VK_F6);
+        g_hwnd,
+        1,
+        MOD_NOREPEAT,
+        VK_F6);
 
     RegisterHotKey(
-        g_hwnd, 2, MOD_NOREPEAT, VK_F7);
+        g_hwnd,
+        2,
+        MOD_NOREPEAT,
+        VK_F7);
 
     RegisterHotKey(
-        g_hwnd, 3, MOD_NOREPEAT, VK_F8);
+        g_hwnd,
+        3,
+        MOD_NOREPEAT,
+        VK_F8);
 
     RegisterHotKey(
         g_hwnd,
         4,
         MOD_CONTROL |
-        MOD_ALT |
-        MOD_SHIFT |
-        MOD_NOREPEAT,
+            MOD_ALT |
+            MOD_SHIFT |
+            MOD_NOREPEAT,
         'Q');
 
-    ShowWindow(g_hwnd, SW_SHOWNOACTIVATE);
+    ShowWindow(
+        g_hwnd,
+        SW_SHOWNOACTIVATE);
+
     PositionWindow();
     PresentLayer();
 
     MSG msg = {};
-    while (GetMessageW(&msg, nullptr, 0, 0) > 0) {
+
+    while (GetMessageW(
+        &msg,
+        nullptr,
+        0,
+        0) > 0) {
+
         TranslateMessage(&msg);
         DispatchMessageW(&msg);
     }

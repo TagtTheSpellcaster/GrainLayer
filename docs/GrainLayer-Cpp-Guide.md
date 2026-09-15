@@ -1,4 +1,4 @@
-# GrainLayer: a C++/Win32 case study from v0.1 to v1.4.2
+# GrainLayer: a C++/Win32 case study from v0.1 to v1.4.3
 
 ## Why this guide exists
 
@@ -244,7 +244,19 @@ Older saved settings above 75% are also clamped to 75% when loaded.
 
 When several controls manipulate the same setting, it is safer to define one user-facing value range and make every input path operate in that same coordinate system.
 
-## 18. What the final program teaches
+## 18. v1.4.3: tint selection indicator
+
+The tint menu now shows a small indicator next to the currently selected tint.
+
+Tint presets retain their color swatch, while the `No tint` entry deliberately has no swatch. This keeps `No tint` visually distinct while using the same selection indicator as the other tint entries.
+
+The indicator is drawn by the owner-drawn menu-item renderer, which already handles the tint entries. The active item is determined from the current tint state through `GetSelectedTintId()`.
+
+### Lesson
+
+An owner-drawn menu item can combine visual state with existing application state without changing the underlying command structure. The menu remains a standard Win32 popup while its appearance reflects the currently active setting.
+
+## 19. What the final program teaches
 
 The most useful C++ lessons in GrainLayer are not isolated syntax rules. They are the relationships between layers of a real application:
 
@@ -257,7 +269,7 @@ The most useful C++ lessons in GrainLayer are not isolated syntax rules. They ar
 - Small applications still benefit from explicit state management and persistence.
 - Shared settings need a consistent user-facing range across every control that edits them.
 
-## 19. Bug diary
+## 20. Bug diary
 
 | Version | Symptom | Root cause | Fix |
 |---|---|---|---|
@@ -270,7 +282,7 @@ The most useful C++ lessons in GrainLayer are not isolated syntax rules. They ar
 | v1.2.5 | Drag did not repaint naturally | Mouse capture/repaint state incomplete | Capture during drag + invalidate/update menu |
 | v1.2.6 | Hover felt like mouse capture | Input handled outside explicit drag state | Only capture/update after left-button press |
 
-## 20. A final principle
+## 21. A final principle
 
 GrainLayer is small enough to understand as a whole, but large enough to expose the realities of native Windows programming.
 
