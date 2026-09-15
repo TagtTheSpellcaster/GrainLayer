@@ -136,8 +136,8 @@ The `docs/` directory contains a companion guide following the project from its 
 - v1.2.5 — live click-and-drag interaction
 - v1.2.6 — natural mouse behaviour: hover does not capture or change the slider
 - v1.3 — custom application/tray icon
-- v1.4.1 — corrected F7/F8 intensity direction; live slider refresh
 - v1.4 — Windows startup and persistent settings; “Toggle overlay” menu wording
+- v1.4.1 — corrected F7/F8 intensity direction; live slider refresh
 
 ## License
 
