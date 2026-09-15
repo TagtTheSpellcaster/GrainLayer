@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.2
+- Capped maximum intensity at 75%.
+- F7/F8 intensity controls and the tray slider now use the same 0–75% range.
+- Updated version information and credits.
+
 ## v1.4.1
 - Reversed the intensity controls so F7 decreases intensity and F8 increases it, matching the left-to-right convention used by volume and brightness controls.
 - The owner-drawn intensity slider now refreshes immediately when intensity is changed with F7/F8 while the tray menu is open.
