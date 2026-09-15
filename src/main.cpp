@@ -25,6 +25,7 @@ constexpr UINT IDM_EXIT = 1004;
 constexpr UINT IDM_INTENSITY = 1005;
 constexpr UINT IDM_INTENSITY_SLIDER = 1006;
 constexpr UINT IDM_STARTUP = 1007;
+constexpr int MAX_INTENSITY_PERCENT = 75;
 static bool g_menuTracking = false;
 static void RefreshPopupMenu();
 
@@ -470,8 +471,12 @@ static void ToggleOverlay()
 
 static void ChangeOpacity(int delta)
 {
-    g_alpha = static_cast<BYTE>(
-        std::clamp(static_cast<int>(g_alpha) + delta, 0, 100));
+    const int percent = std::clamp(
+        AlphaToPercent() + delta,
+        0,
+        MAX_INTENSITY_PERCENT);
+
+    PercentToAlpha(percent);
     PresentLayer();
 
     if (g_menuTracking)
@@ -544,7 +549,7 @@ static int AlphaToPercent()
 
 static void PercentToAlpha(int percent)
 {
-    percent = std::clamp(percent, 0, 100);
+    percent = std::clamp(percent, 0, MAX_INTENSITY_PERCENT);
     g_alpha = static_cast<BYTE>((percent * 255 + 50) / 100);
 }
 
@@ -572,7 +577,7 @@ static void SetIntensityFromCursor(HMENU menu)
         (mouseX > right ? right : mouseX);
 
     const int percent =
-        ((clampedX - left) * 100 + (right - left) / 2) /
+        ((clampedX - left) * MAX_INTENSITY_PERCENT + (right - left) / 2) /
         (right - left);
 
     const BYTE oldAlpha = g_alpha;
@@ -652,7 +657,7 @@ static void DrawIntensitySlider(const DRAWITEMSTRUCT* dis)
     const int percent = AlphaToPercent();
     const int knobX =
         trackLeft +
-        ((trackRight - trackLeft) * percent) / 100;
+        ((trackRight - trackLeft) * percent) / MAX_INTENSITY_PERCENT;
 
     RECT filled = track;
     filled.right = knobX;
@@ -763,7 +768,7 @@ static void SetIntensityFromPoint(HMENU menu, POINT pt)
         (mouseX > right ? right : mouseX);
 
     const int percent =
-        ((clampedX - left) * 100 + (right - left) / 2) /
+        ((clampedX - left) * MAX_INTENSITY_PERCENT + (right - left) / 2) /
         (right - left);
 
     const BYTE oldAlpha = g_alpha;
