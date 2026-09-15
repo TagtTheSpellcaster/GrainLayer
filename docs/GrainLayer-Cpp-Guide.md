@@ -1,4 +1,4 @@
-# GrainLayer: a C++/Win32 case study from v0.1 to v1.4
+# GrainLayer: a C++/Win32 case study from v0.1 to v1.4.2
 
 ## Why this guide exists
 
@@ -222,7 +222,29 @@ The former menu label `Disable overlay` became `Toggle overlay (F6)`.
 
 This is deliberately more accurate: the command is a toggle, so its name describes the operation rather than only one of its two possible outcomes.
 
-## 16. What the final program teaches
+## 16. v1.4.1: intensity controls
+
+F7 decreases intensity and F8 increases it. When the tray menu is open, changes made with F7/F8 immediately refresh the owner-drawn slider.
+
+## 17. v1.4.2: intensity range capped at 75%
+
+The intensity system was changed so that the user-facing range is consistently **0–75%** rather than 0–100%.
+
+The same range is used by:
+
+- the tray slider;
+- F7/F8 keyboard controls;
+- persisted intensity settings.
+
+The percentage value is converted to the internal alpha value only after the range has been clamped. This keeps all three controls synchronized and prevents the slider from representing a value above the intended maximum.
+
+Older saved settings above 75% are also clamped to 75% when loaded.
+
+### Lesson
+
+When several controls manipulate the same setting, it is safer to define one user-facing value range and make every input path operate in that same coordinate system.
+
+## 18. What the final program teaches
 
 The most useful C++ lessons in GrainLayer are not isolated syntax rules. They are the relationships between layers of a real application:
 
@@ -233,8 +255,9 @@ The most useful C++ lessons in GrainLayer are not isolated syntax rules. They ar
 - Owner-drawn controls require explicit measuring and repainting.
 - Windows resources are part of the executable's identity.
 - Small applications still benefit from explicit state management and persistence.
+- Shared settings need a consistent user-facing range across every control that edits them.
 
-## 17. Bug diary
+## 19. Bug diary
 
 | Version | Symptom | Root cause | Fix |
 |---|---|---|---|
@@ -247,7 +270,7 @@ The most useful C++ lessons in GrainLayer are not isolated syntax rules. They ar
 | v1.2.5 | Drag did not repaint naturally | Mouse capture/repaint state incomplete | Capture during drag + invalidate/update menu |
 | v1.2.6 | Hover felt like mouse capture | Input handled outside explicit drag state | Only capture/update after left-button press |
 
-## 18. A final principle
+## 20. A final principle
 
 GrainLayer is small enough to understand as a whole, but large enough to expose the realities of native Windows programming.
 
