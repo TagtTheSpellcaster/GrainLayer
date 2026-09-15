@@ -9,7 +9,8 @@ It is designed to stay out of the way: the overlay is click-through, while confi
 - Subtle paper-grain overlay across the virtual desktop
 - Click-through layered window using per-pixel alpha
 - F6: toggle overlay
-- F7/F8: increase/decrease intensity
+- F7: decrease intensity
+- F8: increase intensity
 - Live owner-drawn intensity slider in the tray menu
 - Click-to-position and click-and-drag slider interaction
 - Warm/tinted and paper presets
@@ -31,11 +32,36 @@ Open `GrainLayer.sln` and build the **Release | x64** configuration.
 
 ## Inspiration and acknowledgements
 
-GrainLayer was inspired by **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)**, a macOS application created by **Akshat Katiyar**. The idea of applying a subtle paper-like texture over the desktop was the starting point for this independent Windows project.
+GrainLayer belongs to a small lineage of desktop paper-surface projects:
 
-GrainLayer is **not affiliated with, endorsed by, or an official Windows port of Deckle**.
+**[Paperman.cc](https://paperman.cc/)** → **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)** → **GrainLayer**
 
-Special thanks to **Akshat Katiyar** for the original idea and inspiration behind Deckle.
+[Paperman.cc](https://paperman.cc/) is a desktop paper-surface utility for Mac and Windows. **Deckle**, a macOS application created by **Akshat Katiyar**, explicitly cites Paperman as an inspiration. GrainLayer was then developed as an independent Windows project inspired by Deckle.
+
+The relationship is therefore best understood as a chain of inspiration rather than a direct port: Paperman → Deckle → GrainLayer.
+
+GrainLayer is **not affiliated with, endorsed by, or an official Windows port of Deckle or Paperman**.
+
+Special thanks to **Akshat Katiyar** for Deckle and for the inspiration that led to this project, and to the creators of Paperman for the earlier work in this lineage.
+
+## Suggested GitHub topics
+
+```text
+ai-assisted-development
+c-plus-plus
+desktop
+deckle
+grain
+layered-window
+overlay
+paper-texture
+paperman
+system-tray
+transparency
+vibe-coding
+win32
+windows
+```
 
 ## About this project
 
@@ -62,9 +88,35 @@ The `docs/` directory contains a companion guide following the project from its 
 - v1.2.5 — live click-and-drag interaction
 - v1.2.6 — natural mouse behaviour: hover does not capture or change the slider
 - v1.3 — custom application/tray icon
-- v1.4.1 — F7/F8 intensity direction corrected; live slider refresh
-v1.4 — Windows startup and persistent settings; “Toggle overlay” menu wording
+- v1.4.1 — corrected F7/F8 intensity direction; live slider refresh
+- v1.4 — Windows startup and persistent settings; “Toggle overlay” menu wording
 
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Programmer's Manual
+
+A detailed, source-heavy history of the project is available in the **[GrainLayer Programmer's Manual](docs/GrainLayer-Programmers-Manual.md)**, including the evolution from v0.1 (then called Deckle Windows), Win32 architecture, debugging notes, ASCII diagrams, and complete historical source listings.
+
+A PDF edition is also included: **[GrainLayer Programmer's Manual (PDF)](docs/GrainLayer-Programmers-Manual.pdf)**.
+
+## Inspiration
+
+GrainLayer belongs to a small chain of inspiration:
+
+```text
+Paperman.cc
+    |
+    | explicitly cited as an inspiration by
+    v
+Deckle — Akshat Katiyar
+    |
+    | inspiration for the Windows implementation
+    v
+GrainLayer
+```
+
+Deckle explicitly cites **[Paperman.cc](https://paperman.cc/)** as an inspiration. GrainLayer was directly inspired by **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)**.
+
+GrainLayer is an independent project and is not affiliated with, endorsed by, or an official Windows port of Deckle.
