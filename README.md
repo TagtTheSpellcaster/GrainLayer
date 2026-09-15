@@ -121,6 +121,7 @@ The `docs/` directory contains a companion guide following the project from its 
 - v1.3 — custom application/tray icon
 - v1.4 — Windows startup and persistent settings; “Toggle overlay” menu wording
 - v1.4.1 — corrected F7/F8 intensity direction; live slider refresh
+- v1.4.2 — intensity capped at 75%
 
 ## License
 
