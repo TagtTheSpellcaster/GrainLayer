@@ -10,6 +10,20 @@ GrainLayer is a small native Windows utility written in C++/Win32 that places a 
 
 It is designed to stay out of the way: the overlay is click-through, while configuration is available from the system tray.
 
+## Inspiration and acknowledgements
+
+GrainLayer belongs to a small lineage of desktop paper-surface projects:
+
+**[Paperman.cc](https://paperman.cc/)** → **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)** → **GrainLayer**
+
+**Paperman** is a desktop paper-surface utility for Mac and Windows. **Deckle**, a macOS application created by **Akshat Katiyar**, explicitly cites Paperman as an inspiration. GrainLayer was then developed as an independent Windows project inspired by Deckle.
+
+The relationship is therefore best understood as a chain of inspiration rather than a direct port: Paperman → Deckle → GrainLayer.
+
+GrainLayer is **not affiliated with, endorsed by, or an official Windows port of Deckle or Paperman**.
+
+Special thanks to **Akshat Katiyar** for Deckle and for the inspiration that led to this project, and to the creators of Paperman for the earlier work in this lineage.
+
 ## Features
 
 - Subtle paper-grain overlay across the virtual desktop
@@ -60,20 +74,6 @@ Requirements:
 - x64 build tools
 
 Open `GrainLayer.sln` and build the **Release | x64** configuration.
-
-## Inspiration and acknowledgements
-
-GrainLayer belongs to a small lineage of desktop paper-surface projects:
-
-**[Paperman.cc](https://paperman.cc/)** → **[Deckle](https://projects.akshatkatiyar.com/projects/deckle/)** → **GrainLayer**
-
-[Paperman.cc](https://paperman.cc/) is a desktop paper-surface utility for Mac and Windows. **Deckle**, a macOS application created by **Akshat Katiyar**, explicitly cites Paperman as an inspiration. GrainLayer was then developed as an independent Windows project inspired by Deckle.
-
-The relationship is therefore best understood as a chain of inspiration rather than a direct port: Paperman → Deckle → GrainLayer.
-
-GrainLayer is **not affiliated with, endorsed by, or an official Windows port of Deckle or Paperman**.
-
-Special thanks to **Akshat Katiyar** for Deckle and for the inspiration that led to this project, and to the creators of Paperman for the earlier work in this lineage.
 
 ## Suggested GitHub topics
 
